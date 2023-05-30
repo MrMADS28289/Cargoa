@@ -4,7 +4,7 @@ const Home = () => {
     return (
         <div className="mx-10">
             <Link
-                to='/blabla'
+                to='/chat:lsdkf'
                 className="btn btn-block justify-start my-3"
             >
                 <div className="avatar online me-5">
@@ -14,7 +14,7 @@ const Home = () => {
                 </div> Adam Moon</Link>
 
             <Link
-                to='/blabla'
+                to='/chat:4093'
                 className="btn btn-block justify-start my-3"
             >
                 <div className="avatar online me-5">
