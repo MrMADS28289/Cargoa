@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Registration = () => {
 
     const [error, setError] = useState({});
+    const navigate = useNavigate();
 
     const registration = (e) => {
         e.preventDefault();
@@ -12,8 +13,9 @@ const Registration = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const role = e.target.role.value;
+        const address = e.target.address.value;
 
-        const user = { email, password, firstName, role };
+        const user = { email, password, firstName, address, role };
 
         fetch("http://localhost:5000/api/v1/user/signup", {
             method: "POST",
@@ -30,9 +32,11 @@ const Registration = () => {
                     console.log(data.data);
                     localStorage.setItem("email", data?.data?.email)
                     localStorage.setItem("password", data?.data?.password)
-                    toast.success(data?.message)
                     e.target.reset();
+                    navigate('/');
                     window.location.reload(true);
+                    toast.success(data?.message)
+
                 }
             })
     };
@@ -99,6 +103,24 @@ const Registration = () => {
                                 </label>
                             </div>
 
+                            <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Address</span>
+                                </label>
+
+                                <input
+                                    name='address'
+                                    type="text"
+                                    placeholder="Address"
+                                    className="input input-bordered w-full max-w-xs"
+
+                                />
+
+                                <label className="label">
+                                    <span className="label-text-alt text-red-500">{error?.error?.errors?.address?.message}</span>
+                                </label>
+                            </div>
+
                             <div className="mb-4">
                                 <label className="label">
                                     <span className="label-text">Role</span>
@@ -114,7 +136,7 @@ const Registration = () => {
                                 </select>
                             </div>
 
-                            <input className='btn w-full max-w-xs text-white' type="submit" value="Login" />
+                            <input className='btn w-full max-w-xs text-white' type="submit" value="Registration" />
                         </form>
 
                         <p><small>Have a account ? <Link className='text-primary' to="/login">Login</Link></small></p>

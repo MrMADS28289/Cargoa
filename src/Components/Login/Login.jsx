@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 const Login = () => {
 
     const [error, setError] = useState({});
-    console.log(error);
+    const navigate = useNavigate();
 
     const logIn = (e) => {
         e.preventDefault();
@@ -23,16 +23,18 @@ const Login = () => {
             .then(res => res.json())
             .then(data => {
                 setError(data)
+                console.log(data);
                 if (data?.status == "fail") {
                     toast.error(data?.error);
                 }
                 if (data?.status == "success") {
-                    console.log(data);
-                    localStorage.setItem("email", data?.data?.email);
+                    console.log(data.data);
+                    localStorage.setItem("email", data?.data?.user?.email);
                     localStorage.setItem("token", data?.data?.token);
-                    toast.success(data?.message)
                     e.target.reset();
+                    navigate('/');
                     window.location.reload(true);
+                    toast.success(data?.message)
                 }
             })
     };
@@ -59,7 +61,7 @@ const Login = () => {
                                 />
 
                                 <label className="label">
-                                    <span className="label-text-alt text-red-500">{error.error}</span>
+                                    <span className="label-text-alt text-red-500">{error?.error}</span>
                                 </label>
                             </div>
 
@@ -77,7 +79,7 @@ const Login = () => {
                                 />
 
                                 <label className="label">
-                                    <span className="label-text-alt text-red-500">{error.error}</span>
+                                    <span className="label-text-alt text-red-500">{error?.error}</span>
                                 </label>
                             </div>
 
